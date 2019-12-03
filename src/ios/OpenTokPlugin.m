@@ -208,6 +208,9 @@
         if(zIndex == 0) {
             [self.webView.scrollView bringSubviewToFront:_publisher.view];
         }
+        if(zIndex < 0) {
+            _publisher.view.userInteractionEnabled = NO;
+        }
     }
 
     // Pulls the subscriber object from dictionary to prepare it for update
@@ -224,6 +227,9 @@
         // See: https://github.com/saghul/cordova-plugin-iosrtc/blob/5b6a180b324c8c9bac533fa481a457b74183c740/src/PluginMediaStreamRenderer.swift#L191
         if(zIndex == 0) {
             [self.webView.scrollView bringSubviewToFront:_publisher.view];
+        }
+        if(zIndex < 0) {
+            streamInfo.view.userInteractionEnabled = NO;
         }
     }
 
