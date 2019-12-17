@@ -168,7 +168,7 @@ class TBSession
   # event listeners
   # todo - other events: connectionCreated, connectionDestroyed, signal?, streamPropertyChanged, signal:type?
   eventReceived: (response) =>
-    @[response.eventType](response.data)
+    @[response.eventType]?(response.data)
   connectionCreated: (event) =>
     connection = new TBConnection( event.connection )
     connectionEvent = new TBEvent("connectionCreated")

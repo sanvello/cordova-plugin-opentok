@@ -393,7 +393,8 @@ TBPublisher = (function() {
   };
 
   TBPublisher.prototype.eventReceived = function(response) {
-    return this[response.eventType](response.data);
+    var _name;
+    return typeof this[_name = response.eventType] === "function" ? this[_name](response.data) : void 0;
   };
 
   TBPublisher.prototype.streamCreated = function(event) {
@@ -763,7 +764,8 @@ TBSession = (function() {
   };
 
   TBSession.prototype.eventReceived = function(response) {
-    return this[response.eventType](response.data);
+    var _name;
+    return typeof this[_name = response.eventType] === "function" ? this[_name](response.data) : void 0;
   };
 
   TBSession.prototype.connectionCreated = function(event) {
@@ -1067,7 +1069,8 @@ TBSubscriber = (function() {
   }
 
   TBSubscriber.prototype.eventReceived = function(response) {
-    return this[response.eventType](response.data);
+    var _name;
+    return typeof this[_name = response.eventType] === "function" ? this[_name](response.data) : void 0;
   };
 
   TBSubscriber.prototype.connected = function(event) {

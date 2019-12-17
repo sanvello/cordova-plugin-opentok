@@ -84,7 +84,7 @@ class TBSubscriber
     Cordova.exec(@eventReceived, TBSuccess, OTPlugin, "addEvent", ["subscriberEvents"] )
     OT.updateViews()
   eventReceived: (response) =>
-    @[response.eventType](response.data)
+    @[response.eventType]?(response.data)
   connected: (event) =>
     streamEvent = new TBEvent("connected")
     streamEvent.stream = event.streamId
