@@ -257,15 +257,6 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
             }
         }
 
-        public void destroyPublisher() {
-            ViewGroup parent = (ViewGroup) webView.getView().getParent();
-            parent.removeView(this.mView);
-            if (this.mPublisher != null) {
-                this.mPublisher.destroy();
-                this.mPublisher = null;
-            }
-        }
-
         public void getImgData(CallbackContext callbackContext) {
             ((OpenTokCustomVideoRenderer) mPublisher.getRenderer()).getSnapshot(callbackContext);
         }
@@ -432,6 +423,9 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
             Log.i(TAG, "subscriber" + streamId + " is disconnected");
         }
 
+        public void onStreamDisconnected(SubscriberKit arg0) {
+        }
+
         @Override
         public void onError(SubscriberKit arg0, OpentokError arg1) {
             JSONObject eventData = new JSONObject();
@@ -545,13 +539,6 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
         // TB Methods
         if (action.equals("initPublisher")) {
             myPublisher = new RunnablePublisher(args);
-        } else if (action.equals("destroyPublisher")) {
-            if (myPublisher != null) {
-                myPublisher.destroyPublisher();
-                myPublisher = null;
-                callbackContext.success();
-                return true;
-            }
         } else if (action.equals("initSession")) {
             apiKey = args.getString(0);
             sessionId = args.getString(1);
@@ -738,12 +725,16 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
         triggerJSEvent("sessionEvents", "sessionConnected", data);
     }
 
+    // This is now deprecated, but apparently still needs to be implemented...
     @Override
     public void onDisconnected(Session arg0) {
+
+    }
+
+    public void onStreamDisconnected(Session arg0) {
         sessionConnected = false;
 
         if (myPublisher != null) {
-            myPublisher.destroyPublisher();
             myPublisher = null;
         }
 
@@ -1079,7 +1070,6 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
     @Override
     public void onStreamDestroyed(PublisherKit arg0, Stream arg1) {
         if (myPublisher != null) {
-            myPublisher.destroyPublisher();
             myPublisher = null;
         }
     }

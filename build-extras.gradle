@@ -16,6 +16,14 @@ allprojects {
     }
 }
 
+
+cdvPluginPostBuildExtras.push({
+    android.compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+})
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.opentok.android:opentok-android-sdk:2.18.0'
