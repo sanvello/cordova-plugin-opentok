@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 module.exports = function (context) {
-  var IosSDKVersion = "OpenTok-iOS-2.19.1";
+  var IosSDKName = "OpenTok-iOS";
+  var IosSDKVersion = IosSDKName + "-2.19.1";
   var downloadFile = require("./downloadFile.js"),
     exec = require("./exec/exec.js"),
     Q = require("q"),
@@ -21,7 +22,7 @@ module.exports = function (context) {
             console.log("expanded");
             var frameworkDir = context.opts.plugin.dir + "/src/ios/";
             exec(
-              "mv ./" + IosSDKVersion + "/OpenTok.framework " + frameworkDir,
+              "mv ./" + IosSDKName + "/OpenTok.framework " + frameworkDir,
               function (err, out, code) {
                 console.log("moved OpenTok.framework into " + frameworkDir);
                 // exec('rm -r ./' + IosSDKVersion, function (err, out, code) {
