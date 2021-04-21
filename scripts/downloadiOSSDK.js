@@ -25,13 +25,16 @@ module.exports = function (context) {
               "mv ./" + IosSDKName + "/OpenTok.framework " + frameworkDir,
               function (err, out, code) {
                 console.log("moved OpenTok.framework into " + frameworkDir);
-                // exec('rm -r ./' + IosSDKVersion, function (err, out, code) {
-                //     console.log('Removed extracted dir');
-                //     exec('rm ./' + IosSDKVersion + '.tar.bz2', function (err, out, code) {
-                //         console.log('Removed downloaded SDK');
-                //         deferral.resolve();
-                //     });
-                // });
+                exec("rm -r ./" + IosSDKName, function (err, out, code) {
+                  console.log("Removed extracted dir");
+                  exec(
+                    "rm ./" + IosSDKVersion + ".tar.bz2",
+                    function (err, out, code) {
+                      console.log("Removed downloaded SDK");
+                      deferral.resolve();
+                    }
+                  );
+                });
               }
             );
           }
