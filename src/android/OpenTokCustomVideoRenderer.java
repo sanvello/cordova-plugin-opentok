@@ -323,7 +323,7 @@ public class OpenTokCustomVideoRenderer extends BaseVideoRenderer {
         public void displayFrame(Frame frame) {
             mFrameLock.lock();
             if (this.mCurrentFrame != null) {
-                this.mCurrentFrame.recycle();
+                this.mCurrentFrame.destroy();
             }
             this.mCurrentFrame = frame;
             mFrameLock.unlock();
@@ -421,7 +421,7 @@ public class OpenTokCustomVideoRenderer extends BaseVideoRenderer {
 
             if (mVideoDisabled) {
                 if (this.mCurrentFrame != null) {
-                    this.mCurrentFrame.recycle();
+                    this.mCurrentFrame.destroy();
                 }
                 this.mCurrentFrame = null;
             }
