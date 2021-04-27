@@ -129,40 +129,37 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
         @SuppressLint("NewApi")
         @Override
         public void run() {
-            cordova.getActivity().runOnUiThread(() -> {
-                try {
-                    Log.i(TAG, "updating view in ui runnable" + mProperty.toString());
-                    Log.i(TAG, "updating view in ui runnable " + mView.toString());
+            try {
+                Log.i(TAG, "updating view in ui runnable" + mProperty.toString());
+                Log.i(TAG, "updating view in ui runnable " + mView.toString());
 
-                    float widthRatio, heightRatio;
+                float widthRatio, heightRatio;
 
-                    // Ratios are index 6 & 7 on TB.updateViews, 8 & 9 on subscribe event, and 9 &
-                    // 10 on TB.initPublisher
-                    int ratioIndex;
-                    if (mProperty.get(6) instanceof Number) {
-                        ratioIndex = 6;
-                    } else if (mProperty.get(8) instanceof Number) {
-                        ratioIndex = 8;
-                    } else {
-                        ratioIndex = 9;
-                    }
-
-                    DisplayMetrics metrics = new DisplayMetrics();
-                    cordova.getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-                    widthRatio = (float) mProperty.getDouble(ratioIndex) * metrics.density;
-                    heightRatio = (float) mProperty.getDouble(ratioIndex + 1) * metrics.density;
-                    mView.setY(mProperty.getInt(1) * heightRatio);
-                    mView.setX(mProperty.getInt(2) * widthRatio);
-                    ViewGroup.LayoutParams params = mView.getLayoutParams();
-                    params.height = (int) (mProperty.getInt(4) * heightRatio);
-                    params.width = (int) (mProperty.getInt(3) * widthRatio);
-                    mView.setLayoutParams(params);
-                    updateZIndices();
-                } catch (Exception e) {
-                    Log.i(TAG, "error when trying to retrieve properties while resizing properties");
+                // Ratios are index 6 & 7 on TB.updateViews, 8 & 9 on subscribe event, and 9 & 10 on TB.initPublisher
+                int ratioIndex;
+                if (mProperty.get(6) instanceof Number) {
+                    ratioIndex = 6;
+                } else if (mProperty.get(8) instanceof Number) {
+                    ratioIndex = 8;
+                } else {
+                    ratioIndex = 9;
                 }
-            });
+
+                DisplayMetrics metrics = new DisplayMetrics();
+                cordova.getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+                widthRatio = (float) mProperty.getDouble(ratioIndex) * metrics.density;
+                heightRatio = (float) mProperty.getDouble(ratioIndex + 1) * metrics.density;
+                mView.setY(mProperty.getInt(1) * heightRatio);
+                mView.setX(mProperty.getInt(2) * widthRatio);
+                ViewGroup.LayoutParams params = mView.getLayoutParams();
+                params.height = (int) (mProperty.getInt(4) * heightRatio);
+                params.width = (int) (mProperty.getInt(3) * widthRatio);
+                mView.setLayoutParams(params);
+                updateZIndices();
+            } catch (Exception e) {
+                Log.i(TAG, "error when trying to retrieve properties while resizing properties");
+            }
         }
     }
 
@@ -374,10 +371,10 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
         }
 
         public void removeStreamView() {
-            ViewGroup parent = (ViewGroup) webView.getView().getParent();
             cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    ViewGroup parent = (ViewGroup) webView.getView().getParent();
                     parent.removeView(mView);
                 }
             });
@@ -423,7 +420,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
                 Log.e(TAG, "JSONException" + e.getMessage());
             }
             Log.i(TAG, "subscriber" + streamId + " is connected");
-            this.run();
+            cordova.getActivity().runOnUiThread(RunnableSubscriber.this);
         }
 
         @Override
