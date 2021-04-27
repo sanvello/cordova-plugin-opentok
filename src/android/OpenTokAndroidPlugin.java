@@ -371,10 +371,10 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
         }
 
         public void removeStreamView() {
-            ViewGroup parent = (ViewGroup) webView.getView().getParent();
             cordova.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    ViewGroup parent = (ViewGroup) webView.getView().getParent();
                     parent.removeView(mView);
                 }
             });
@@ -420,7 +420,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
                 Log.e(TAG, "JSONException" + e.getMessage());
             }
             Log.i(TAG, "subscriber" + streamId + " is connected");
-            this.run();
+            cordova.getActivity().runOnUiThread(RunnableSubscriber.this);
         }
 
         @Override
